@@ -1,3 +1,9 @@
+def dark_elixir_cost
+
+dark_elixir_cost = {
+	'valkyrie' => [70,100,130,160],
+	}
+	end
 
 def elixir_cost
 
@@ -10,22 +16,33 @@ def elixir_cost
 		}
 end
 
+def get_cost(costs,troop,level)
+	    cost_for_troop = costs[troop]
+	    return 0 unless cost_for_troop	    
+	    cost_for_troop[level.to_i - 1]
+end
+
 def show_costs(army_description)
 	
 	army = army_description.scan(/([0-9]+) L([0-9]+) ([a-z]+)/)
-	total_cost = 0
+	total_elixir_cost = 0
+	total_dark_elixir_cost = 0
 	army.each{|number,level,troops|
 		troop = troops.sub(/s$/,"")
-		cost_of_one = elixir_cost[troop][level.to_i - 1]
-		total_cost = total_cost + cost_of_one * number.to_i
+		dark_elixir_for_one = get_cost(dark_elixir_cost,troop,level)
+		elixir_for_one = get_cost(elixir_cost,troop,level)	    
+		total_elixir_cost = total_elixir_cost + elixir_for_one * number.to_i
+		total_dark_elixir_cost = total_dark_elixir_cost + dark_elixir_for_one * number.to_i
 	
-		cost_of_all = cost_of_one * number.to_i
+		elixir_for_all = elixir_for_one * number.to_i
+		dark_elixir_for_all = dark_elixir_for_one * number.to_i
 	
-		puts "The cost of a #{troop} is #{cost_of_one}, and " +
-			"the cost of #{number} #{troops} is #{cost_of_all}."	
+	
 	}
-	puts "The cost of your army is #{total_cost} elixir."	
+	puts "The cost of\n #{army_description} is\n #{total_elixir_cost} elixir and #{total_dark_elixir_cost} dark elixir."	
 end
-#show_costs("50 L5 barbarians, 25 L4 wizards, and 50 L4 archers")
+show_costs("50 L5 barbarians, 25 L4 wizards, and 50 L4 archers")
 show_costs("8 L5 balloons, 80 L4 barbarian, and 80 L4 archers")
 show_costs("12 L5 balloons, 70 L4 barbarian, and 70 L4 archers")
+show_costs("12 L5 balloons, 20 L4 barbarian, and 50 L4 archers")
+show_costs("42 L5 barbarians, 25 L4 wizards, 1 L1 valkyrie, and 50 L4 archers")
