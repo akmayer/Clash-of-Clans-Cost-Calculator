@@ -41,7 +41,7 @@ def show_costs(army_description)
 
 		dark_elixir_for_one = get_cost(dark_elixir_cost,troop,level)
 		elixir_for_one = get_cost(elixir_cost,troop,level)	    
-		time_for_one = get_cost(elixir_cost,troop,level)	    
+		time_for_one = get_cost(time_cost,troop,level)	    
 
 		total_elixir_cost = total_elixir_cost + elixir_for_one * number.to_i
 		total_dark_elixir_cost = total_dark_elixir_cost + dark_elixir_for_one * number.to_i
@@ -51,7 +51,7 @@ def show_costs(army_description)
 		dark_elixir_for_all = dark_elixir_for_one * number.to_i
 	
 	}
-	puts "The cost of\n #{army_description} is\n #{total_elixir_cost} elixir and #{total_dark_elixir_cost} dark elixir and #{total_time} seconds."	
+	puts "The cost of\n #{army_description} is\n #{total_elixir_cost} elixir and #{total_dark_elixir_cost} dark elixir and #{total_time / 60} builder minutes."	
 end
 show_costs("50 L5 barbarians, 25 L4 wizards, and 50 L4 archers")
 show_costs("8 L5 balloons, 80 L4 barbarian, and 80 L4 archers")
