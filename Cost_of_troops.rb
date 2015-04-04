@@ -104,11 +104,12 @@ end
 
 def show_costs(army_description)
 	
-	army = army_description.scan(/([0-9]+) L([0-9]+) ([a-z]+)/)
+	army = army_description.scan(/([0-9]+) [Ll]([0-9]+) ([a-z]+)/)
 	total_elixir_cost = 0
 	total_dark_elixir_cost = 0
 	total_time = 0
 	total_army_camp = 0
+	army_output = []
 
 	army.each{|number,level,troops|
 		troop = troops.sub(/s$/,"")
@@ -117,6 +118,10 @@ def show_costs(army_description)
 		elixir_for_one = get_cost(elixir_cost,troop,level)	    
 		time_for_one = get_cost(time_cost,troop,level)	    
 		army_camp_for_one = get_cost(army_camp_cost,troop,level)
+		
+		next if army_camp_for_one == 0
+		
+		army_output << "#{number} L#{level} #{troops}"
 
 		total_elixir_cost = total_elixir_cost + elixir_for_one * number.to_i
 		total_dark_elixir_cost = total_dark_elixir_cost + dark_elixir_for_one * number.to_i
@@ -129,16 +134,18 @@ def show_costs(army_description)
 	}
 
 	puts "%7d elixir, %5d dark, %3d space, %s barracks time for: %s " %
-	     [total_elixir_cost, total_dark_elixir_cost, total_army_camp, nice_time(total_time / 4), army_description,]
+	     [total_elixir_cost, total_dark_elixir_cost, total_army_camp, nice_time(total_time / 4), army_output.join(", "),]
 
 end
 
-show_costs("50 L5 barbarians, 25 L4 wizards, and 50 L4 archers")
-show_costs("12 L5 balloons, 70 L4 barbarian, and 70 L4 archers")
-show_costs("16 L5 balloons, and 70 L4 archers, and 25 L2 minions")
-show_costs("20 L5 balloons, and 50 L2 minions")
-show_costs("42 L5 barbarians, 25 L4 wizards, 1 L1 valkyrie, and 50 L4 archers")
-show_costs("62 L4 barbarians, 72 L4 archers, and 33 L2 minions")
-show_costs("62 L5 barbarians, 72 L4 archers, and 33 L2 minions")
-show_costs("200 L5 barbarians")
-show_costs("26 L5 balloons, and 35 L4 minions")
+#show_costs("50 L5 barbarians, 25 L4 wizards, and 50 L4 archers")
+#show_costs("12 L5 balloons, 70 L4 barbarian, and 70 L4 archers")
+#show_costs("16 L5 balloons, and 70 L4 archers, and 25 L2 minions")
+#show_costs("20 L5 balloons, and 50 L2 minions")
+#show_costs("42 L5 barbarians, 25 L4 wizards, 1 L1 valkyrie, and 50 L4 archers")
+#show_costs("62 L4 barbarians, 72 L4 archers, and 33 L2 minions")
+#show_costs("62 L5 barbarians, 72 L4 archers, and 33 L2 minions")
+#show_costs("200 L5 barbarians")
+#show_costs("26 L5 balloons, and 35 L4 minions")
+show_costs("2 l1 golems 3 L1 witch 16 L5 barbarian 16 L5 archer 10 L5 wallbreaker 18 L5 wizard")
+show_costs("50 l4 minions 20 l6 balloons")
